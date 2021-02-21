@@ -22,7 +22,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 
-ALLOWED_HOSTS = ['gdm-tech.herokuapp.com']
+ALLOWED_HOSTS = ['get-dem-media.herokuapp.com']
 
 
 # Application definition
