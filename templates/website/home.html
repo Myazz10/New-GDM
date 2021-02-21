@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+
+{% load website_tags %}
+{% load static %}
+
+{% animated_header_text as animated_text %}
+
+{% block content %}
+    <!-- Header with Search Form -->
+    <header class="masthead text-white text-center" style="background: url({% static 'website/assets/img/pexels-garrett-morrow-1649771.jpg' %});background-size: cover;">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <div class="text-nowrap d-flex justify-content-center align-items-center animated-text noSelect" style="background: rgba(255,255,255,0);border-style: none;margin-top: 0px;width: 50%;margin-right: auto;margin-left: auto;">
+                        <div class="caption v-middle text-center">
+                            <h1 class="cd-headline clip">
+                                <span class="blc">Get</span>
+                                <span class="cd-words-wrapper">
+                                    {% if animated_text %}
+                                        <b class="is-visible">{{ animated_text.0 }}</b>
+                                        <b>{{ animated_text.1 }}</b>
+                                        {% if animated_text.2 %}
+                                            <b>{{ animated_text.2 }}</b>
+                                        {% endif %}
+                                        <b>{{ animated_text.3 }}</b>
+                                    {% else %}
+                                        <b class="is-visible">First Paragraph</b>
+                                        <b>Second Paragraph</b>
+                                        <b>Third Paragraph</b>
+                                        <b>Fourth Paragraph</b>
+                                    {% endif %}
+                                </span>
+                                <span class="blinking">|</span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-12 col-md-9 col-xl-12 offset-xl-0 mb-2 mb-md-0">
+                                <form class="text-center align-items-center align-content-center align-self-center bootstrap-form-with-validation" method="post">
+                                    {% if special_characters_flag %}
+                                        <h2 class="text-center">{{ special_characters_flag }}</h2>
+                                    {% else %}
+                                        <h2 class="text-center">{% if invalid_url %}{{ invalid_url }}{% else %}Just get the video URL...{% endif %}</h2>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-search"></i></span>
+                                            </div>
+                                            <input class="border rounded form-control" type="search" id="search-input" name="search" placeholder="Enter url here..." required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check mt-5">
+                                            <input class="form-check-input" type="radio" id="formCheck-1" name="file-type" value="mp3" required=""> <!--  onclick="EnableSearch(); -->
+                                            <label class="form-check-label" for="formCheck-1">Get MP3</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="formCheck-5" name="file-type" value="mp4" required=""> <!--  onclick="EnableSearch(); -->
+                                            <label class="form-check-label" for="formCheck-1">Get MP4</label>
+                                        </div>
+
+                                        {% if permission %}
+                                            {% permission as granted %}
+                                            <!-- Assigning the value of the function permissions to a variable call granted -->
+                                            {% if granted %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="formCheck-4" name="file-type" value="mp3-playlist" required="">
+                                                    <label class="form-check-label" for="formCheck-1">Get Playlist in MP3</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="formCheck-3" name="file-type" value="mp4-playlist" required="">
+                                                    <label class="form-check-label" for="formCheck-1">Get Playlist in MP4</label>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Search Button -->
+                                    <div class="form-group" style="text-align: center;">
+                                        <button class="btn btn-warning btn-lg" data-bs-hover-animate="pulse" id="search-btn" type="submit" onclick="showHide()">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% if result %}
+        <!-- Results Section -->
+        <section class="showcase">
+            <div class="container-fluid p-0">
+                <div class="row register-form">
+                    <div class="col">
+                        <div class="container py-5">
+                            <header class="text-center pt-3 pb-5">
+                                <h1 class="display-4 font-weight-bold">Here are your results</h1>
+                                <p class="font-italic text-muted mb-0">We have got the best quality results for you!</p>
+                            </header>
+
+                            <!-- Result Item Title -->
+                            <div class="py-5">
+                                <div class="row">
+                                    <!-- DEMO 4 Item -->
+                                    <div class="col-lg-5">
+                                        <h3 class="font-weight-bold mb-1">{{ title }}</h3>
+                                        <p class="font-italic text-muted mb-2">Author: {{ author|title }}</p>
+                                        <p class="font-italic text-muted mb-2">Views: {{ views }}</p>
+                                    </div>
+
+                                    <!-- Result Item Card with Download Button -->
+                                    <div class="col-lg-7 mb-3 mb-lg-0">
+                                        <div class="hover hover-4 text-white rounded">
+                                            <img src="{{ thumbnail }}" alt="">
+                                            <div class="hover-overlay"></div>
+                                            <div class="hover-4-content">
+                                                <h3 class="hover-4-title text-uppercase font-weight-bold mb-0">
+                                                    <!-- Download Button -->
+                                                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center" >
+                                                        <!-- Will display audio download link -->
+                                                        {% if audio %}
+                                                            <a class="btn btn-primary pulse animated infinite" role="button" id="button1" type="button" style="background: var(--orange);border-color: var(--dark);margin-top: 0px;width:200px;" href="{{ audio.mp3.url }}" download="{{ title|title }}">
+                                                                <img style="width: 20px;height: 20px;transform: rotate(270deg) translateX(10px) translateY(-85px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                                                <span data-bs-hover-animate="pulse"><strong>Click here&nbsp;</strong><i class="fas fa-download"></i></span>
+                                                                <img style="width: 20px;height: 20px;transform: rotate(90deg) translateX(-9px) translateY(-65px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                                            </a>
+                                                        {% endif %}
+
+                                                        <!-- Will display video download link -->
+                                                        {% if video %}
+                                                            <a class="btn btn-primary pulse animated infinite" role="button" id="button1" type="button" style="background: var(--orange);border-color: var(--dark);margin-top: 0px;width:200px;" href="{{ video.mp4.url }}" download="{{ title|title }}">
+                                                                <img style="width: 20px;height: 20px;transform: rotate(270deg) translateX(10px) translateY(-85px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                                                <span data-bs-hover-animate="pulse"><strong>Click here&nbsp;</strong><i class="fas fa-download"></i></span>
+                                                                <img style="width: 20px;height: 20px;transform: rotate(90deg) translateX(-9px) translateY(-65px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </h3>
+                                                <p class="hover-4-description text-uppercase mb-0 small">Length: {{ length }}</p>
+                                                <p class="hover-4-description text-uppercase mb-0  mt-3 small">Published on: {{ publish_date }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="{% static 'website/assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="{% static 'website/assets/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/fonts/fontawesome5-overrides.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/animated-typing.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/back-to-top.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/bootstrap-image-hover.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/floating-download-button.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'website/assets/css/search-form.css' %}">
+</head>
+
+<body style="color: var(--orange);background: var(--dark);">
+    <nav class="navbar navbar-light navbar-expand bg-light navigation-clean" style="color: var(--gray);background: var(--dark);border-color: var(--dark);height: 0px;">
+        <div class="container"><button class="navbar-toggler" data-toggle="collapse"></button>
+            <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark p-0">
+                <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav flex-grow-1 justify-content-between">
+                            <li class="nav-item"><a class="nav-link" href="#" style="text-align: center;font-size: 25px;margin:auto;"><i class="fas fa-assistive-listening-systems apple-logo" style="font-size: 25px;background: var(--gray);color: var(--orange);"></i></a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" style="text-align: center;font-size: 25px;margin:auto;">Get Dem Media</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" style="text-align: center;font-size: 25px;margin:auto;"><i class="fas fa-laptop-code" style="color: var(--orange);font-size: 20px;"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </nav>
+
+    <!-- Header with Search Form -->
+    <header class="masthead text-white text-center" style="background: url({% static 'website/assets/img/pexels-garrett-morrow-1649771.jpg' %});background-size: cover;">
+        <div class="overlay"></div>
+        <div class="container" style="padding-top: 150px; padding-bottom: 100px;">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <div class="text-nowrap d-flex justify-content-center align-items-center animated-text noSelect" style="background: rgba(255,255,255,0);border-style: none;margin-top: 0px;width: 50%;margin-right: auto;margin-left: auto;">
+                        <div class="caption v-middle text-center">
+                            <h1 class="cd-headline clip">
+                                <span class="blc">Get</span>
+                                <span class="cd-words-wrapper">
+                                  <b class="is-visible">that MP3.</b>
+                                  <b>that MP4.</b>
+                                  <b>it all if you wish!</b>
+                                </span>
+                                <span class="blinking">|</span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-12 col-md-9 col-xl-12 offset-xl-0 mb-2 mb-md-0">
+                                <form class="text-center align-items-center align-content-center align-self-center bootstrap-form-with-validation" method="post">
+                                    <h2 class="text-center">Just get the video URL...</h2>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text"> <i class="fa fa-search"></i></span></div><input class="border rounded form-control" type="search" id="search-input" name="search" placeholder="Enter url here..." required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="formCheck-1" name="file-type" value="mp3" required="">
+                                            <label class="form-check-label" for="formCheck-1">Get MP3</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="formCheck-5" name="file-type" value="mp4" required="">
+                                            <label class="form-check-label" for="formCheck-1">Get MP4</label>
+                                        </div>
+
+                                        {% permission as granted %}
+                                        <!-- Assigning the value of the function permissions to a variable call granted -->
+                                        {% if granted %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="formCheck-4" name="file-type" value="mp3-playlist" required="">
+                                                <label class="form-check-label" for="formCheck-1">Get Playlist in MP3</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="formCheck-3" name="file-type" value="mp4-playlist" required="">
+                                                <label class="form-check-label" for="formCheck-1">Get Playlist in MP4</label>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group" style="text-align: center;">
+                                        <button class="btn btn-primary btn-lg" data-bs-hover-animate="pulse" type="submit" style="width: 160px;text-align: center;margin-left: 0px;background: var(--orange);border-style: none;">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% if result %}
+    <!-- Results Section -->
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row register-form">
+                <div class="col">
+                    <div class="container py-5">
+                      <header class="text-center" style="margin-top: -65px; margin-bottom: 65px;">
+                        <h1 class="display-4 font-weight-bold">Here are your results</h1>
+                        <p class="font-italic text-muted mb-0">We have got the best quality results for you!</p>
+                      </header>
+
+                        <!-- Result Item Title -->
+                      <div class="py-5">
+                        <div class="row">
+                            <!-- DEMO 4 Item -->
+                          <div class="col-lg-5">
+                            <h3 class="font-weight-bold mb-0">Video Title Here!</h3>
+                            <p class="font-italic text-muted mb-4">I want to center this one!</p>
+                          </div>
+
+                          <!-- Result Item Card with Download Button -->
+                          <div class="col-lg-7 mb-3 mb-lg-0">
+                            <div class="hover hover-4 text-white rounded"><img src="https://res.cloudinary.com/mhmd/image/upload/v1570786266/hoverSet-7_uae7jt.jpg" alt="">
+                              <div class="hover-overlay"></div>
+                              <div class="hover-4-content">
+                                <h3 class="hover-4-title text-uppercase font-weight-bold mb-0">
+                                    <!-- Download Button -->
+                                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center" >
+                                        <button class="btn btn-primary pulse animated infinite" id="button1" type="button" style="background: var(--orange);border-color: var(--dark);margin-top: 0px;width:200px;">
+                                            <img style="width: 20px;height: 20px;transform: rotate(270deg) translateX(10px) translateY(-85px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                            <span data-bs-hover-animate="pulse"><strong>Download&nbsp;</strong><i class="fas fa-download"></i></span>
+                                            <img style="width: 20px;height: 20px;transform: rotate(90deg) translateX(-9px) translateY(-65px);" src="{% static 'website/assets/img/arrowwhite.gif' %}">
+                                        </button>
+                                    </div>
+                                </h3>
+                                <p class="hover-4-description text-uppercase mb-0 small">Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer id="footerpad" style="padding-top: 30px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 mx-auto">
+                    <ul class="list-inline text-center">
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    {% if current_year > 2021 %}
+                        <p class="copyright text-muted text-center">Copyright &copy; Get Dem Media 2021 - {{ current_year }} | Made with<span class="fa-stack fa-sml"><i class="fa fa-heart" style="color: red;"></i></span>by <a href="#" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">Myazz Designz</a></p>
+                    {% else %}
+                        <p class="copyright text-muted text-center">Copyright &copy; Get Dem Media 2021 | Made with<span class="fa-stack fa-sml"><i class="fa fa-heart" style="color: red;"></i></span>by <a href="#" style="color: #ff5e00;" onmouseover="this.style.color='#ff9615';" onmouseout="this.style.color='#ff5e00';">Myazz Designz</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <a class="cd-top js-cd-top cd-top--fade-out cd-top--show" style="background: url({% static 'website/assets/img/cd-top-arrow.svg' %}) center / auto no-repeat, #ff5e00;" href="#0">Top</a>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'website/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'website/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'website/assets/js/bs-init.js' %}"></script>
+    <script src="{% static 'website/assets/js/animated-typing.js' %}"></script>
+    <script src="{% static 'website/assets/js/back-to-top.js' %}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> <!-- Captcha API -->
+</body>
+
+</html>
