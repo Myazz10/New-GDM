@@ -88,7 +88,7 @@ def home(request):
                     # Retrieving and converting a string date variable from the session
                     expiry_date = datetime.strptime(
                         expiry_date, "%Y-%m-%d %H:%M:%S.%f")
-                    expiry_date = expiry_date + timedelta(minutes=15)
+                    expiry_date = expiry_date + timedelta(minutes=5)
 
                     print(f'Expiry Date: {expiry_date}')
 
@@ -160,7 +160,7 @@ def home(request):
                     # Retrieving and converting a string date variable from the session
                     expiry_date = datetime.strptime(
                         expiry_date, "%Y-%m-%d %H:%M:%S.%f")
-                    expiry_date = expiry_date + timedelta(minutes=15)
+                    expiry_date = expiry_date + timedelta(minutes=5)
 
                     print(f'Expiry Date: {expiry_date}')
 
