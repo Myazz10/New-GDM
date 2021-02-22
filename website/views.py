@@ -264,8 +264,8 @@ def home(request):
                 context['invalid_url'] = video_details['invalid_url']
 
     # Cleaning up the session database of the expired sessions.
-    if session_is_expired:
-        request.session.clear_expired()
+    #if session_is_expired:
+    #    request.session.clear_expired()
 
     context['result'] = result
     context['current_year'] = today.year

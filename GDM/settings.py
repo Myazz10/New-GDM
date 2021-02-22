@@ -143,7 +143,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # All sessions will be expired if the user closes their browser
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Heroku settings
