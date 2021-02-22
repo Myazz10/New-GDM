@@ -1,5 +1,11 @@
 Step 1:
-heroku run bash
+- heroku run bash
 
 Step 2:
-python manage.py clearsessions
+- python manage.py clearsessions
+
+Step 2 Alternative:
+- python manage.py shell
+
+- from django.contrib.sessions.models import Session
+- Session.objects.all().delete()
