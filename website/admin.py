@@ -11,6 +11,7 @@ admin.site.site_header = 'GDM Tech Admin Dashboard'
 admin.site.site_title = 'Home - GDM Tech'
 
 MAX_OBJECTS = 1
+WEBSITE_NOTICE_OBJECTS = 2
 
 
 @admin.register(AnimatedHeaderText)
@@ -85,6 +86,6 @@ class UpdateCountDownAdmin(admin.ModelAdmin):
 
     # To allow the user to only add one object for this model...
     def has_add_permission(self, request):
-        if self.model.objects.count() >= MAX_OBJECTS:
+        if self.model.objects.count() >= WEBSITE_NOTICE_OBJECTS:
             return False
         return super().has_add_permission(request)
