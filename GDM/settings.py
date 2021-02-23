@@ -28,6 +28,8 @@ ALLOWED_HOSTS = ['get-dem-media.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -115,11 +117,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Pretty Admin Page
+X_FRAME_OPTIONS='SAMEORIGIN' # only if django version >= 3.0
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]

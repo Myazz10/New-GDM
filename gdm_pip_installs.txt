@@ -8,3 +8,4 @@ pip install moviepy
 pip install gunicorn
 pip install python-decouple
 pip install django-heroku
+pip install django-admin-interface
