@@ -63,7 +63,7 @@ def animated_header_text():
 
 @register.simple_tag
 def site_maintenance():
-    timer = UpdateCountDown.objects.filter(approved=True)
+    timer = Notice.objects.filter(approved=True)
     approved = False
 
     for item in timer:
@@ -78,7 +78,7 @@ def site_maintenance():
 # website/countdown.html.
 @register.inclusion_tag('website/countdown.html')
 def countdown_timer():
-    timer = UpdateCountDown.objects.filter(approved=True).first()
+    timer = Notice.objects.filter(approved=True).first()
     context = {
         'timer': timer,
     }
