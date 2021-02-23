@@ -1,5 +1,5 @@
 from django import template
-from website.models import PermitPlaylistDownload, MyazzDesignzProfile, WebsiteName, AnimatedHeaderText, UpdateCountDown
+from website.models import PermitPlaylistDownload, MyazzDesignzProfile, WebsiteName, AnimatedHeaderText, Notice
 
 
 register = template.Library()

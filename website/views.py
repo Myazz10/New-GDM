@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .download_mp3 import get_mp3
 from .download_mp4 import get_mp4
-from .models import Audio, Video, UpdateCountDown
+from .models import Audio, Video
 from datetime import datetime, time, timedelta
 import pytz
 from .removing_user_session import clear_expired_session

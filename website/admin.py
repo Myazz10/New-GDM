@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Audio, Video, AnimatedHeaderText, WebsiteName, AudioPlaylist, VideoPlaylist,\
-    PermitPlaylistDownload, MyazzDesignzProfile, TitleError, ErrorCharacter, UpdateCountDown
+    PermitPlaylistDownload, MyazzDesignzProfile, TitleError, ErrorCharacter, Notice
 
 
 admin.site.register(Audio)
@@ -79,8 +79,8 @@ class ErrorCharacterAdmin(admin.ModelAdmin):
         return super().has_add_permission(request)
 
 
-@admin.register(UpdateCountDown)
-class UpdateCountDownAdmin(admin.ModelAdmin):
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
     fields = ['user', 'name', 'when', 'approved']
     list_display = ['name', 'when', 'user', 'approved']
 

@@ -25,37 +25,6 @@ class Audio(models.Model):
     name = models.CharField(max_length=150, null=True, blank=True)
     mp3 = models.FileField(upload_to='audios/', null=True, blank=True, storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
 
-    # Overriding the deleted method...
-    def delete(self, *args, **kwargs):
-        # object is being removed from db, remove the file from storage first
-        self.remove_audio()  # Calling a custom delete method before remove this object from the database.
-        self.mp3.delete()
-        return super(Audio, self).delete(*args, **kwargs)
-
-    # To delete the current file name from the downloaded folder
-    def remove_audio(self):
-        title = self.name
-        current_directory = os.getcwd()
-        download_folder = os.getcwd() + '\\download\\audios'
-
-        # Changing to the download folder path to save downloaded files in that folder.
-        os.chdir(download_folder)
-
-        # Creating a path list to get all mp4 files.
-        path = os.listdir(download_folder)
-
-        # Updating the title to compare it with the mp4 file that exist for it in this folder...
-        title = special_characters(title)
-
-        # Loop through the path to save the files to the database.
-        for mp3_file in path:
-            if mp3_file.endswith('mp3') and mp3_file.__contains__(title):
-                os.remove(mp3_file)
-                break
-
-        # Navigate back to the current working directory
-        os.chdir(current_directory)
-
     def __str__(self):
         return f'{self.name}'
 
@@ -111,7 +80,7 @@ class ErrorCharacter(models.Model):
         return f'{self.name}'
 
 
-class UpdateCountDown(models.Model):
+class Notice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     when = models.DateTimeField()
