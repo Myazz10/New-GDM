@@ -95,6 +95,6 @@ class NoticeAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     fields = ['name', 'email', 'message']
     search_fields = ['name', 'email']
-    list_filter = ['name', 'email']
-    list_display = ['name', 'email', 'message']
+    list_filter = ['name', 'email', 'date_commented']
+    list_display = ['name', 'email', 'message', 'date_commented']
     list_per_page = 30

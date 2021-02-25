@@ -94,6 +94,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.TextField()
+    date_commented = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.name.title()}'
