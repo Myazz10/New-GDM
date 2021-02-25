@@ -42,6 +42,11 @@
                         <div class="form-row">
                             <div class="col-12 col-md-9 col-xl-12 offset-xl-0 mb-2 mb-md-0">
                                 <form class="text-center align-items-center align-content-center align-self-center bootstrap-form-with-validation" method="post">
+                                    {% if success_comment %}
+                                        <h2>{{ success_comment }}</h2>
+                                        <br>
+                                    {% endif %}
+
                                     {% if special_characters_flag %}
                                         <h2 class="text-center">{{ special_characters_flag }}</h2>
                                     {% else %}
@@ -80,6 +85,8 @@
                                             {% endif %}
                                         {% endif %}
                                     </div>
+
+                                    <input type="hidden" name="submission" value="url-form">
 
                                     <!-- Search Button -->
                                     <div class="form-group" style="text-align: center;">

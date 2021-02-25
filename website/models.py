@@ -90,6 +90,14 @@ class Notice(models.Model):
         return f'{self.name.title()}'
 
 
+class Comment(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return f'{self.name.title()}'
+
 # To clear the potential problems with the titles that contains special characters that will throw an error
 def special_characters(title):
     error_characters = ErrorCharacter.objects.all()

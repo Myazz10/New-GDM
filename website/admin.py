@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Audio, Video, AnimatedHeaderText, WebsiteName, AudioPlaylist, VideoPlaylist,\
-    PermitPlaylistDownload, MyazzDesignzProfile, TitleError, ErrorCharacter, Notice
+    PermitPlaylistDownload, MyazzDesignzProfile, TitleError, ErrorCharacter, Notice, Comment
 
 
 admin.site.register(Audio)
@@ -89,3 +89,12 @@ class NoticeAdmin(admin.ModelAdmin):
         if self.model.objects.count() >= WEBSITE_NOTICE_OBJECTS:
             return False
         return super().has_add_permission(request)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    fields = ['name', 'email', 'message']
+    search_fields = ['name', 'email']
+    list_filter = ['name', 'email']
+    list_display = ['name', 'email', 'message']
+    list_per_page = 30
