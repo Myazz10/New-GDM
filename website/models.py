@@ -4,7 +4,8 @@ from django.db import models
 from django.utils import timezone
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
-from GDM.settings import DEFAULT_FILE_STORAGE
+from GDM.settings import DEFAULT_FILE_STORAGE, EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 
 class AnimatedHeaderText(models.Model):
@@ -93,11 +94,29 @@ class Notice(models.Model):
 class Comment(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
-    message = models.TextField()
+    message = models.TextField(null=True, blank=True)
     date_commented = models.DateTimeField(default=timezone.now)
 
+    subject = models.CharField(max_length=100)
+    reply = models.TextField(null=True, blank=True)
+    replied = models.BooleanField(default=False)
+    date_replied = models.DateTimeField(default=timezone.now)
+
+    # Overriding the save method to send email
+    def save(self, *args, **kwargs):
+        # Send the email if the replied box has been checked.
+        if self.replied:
+            self.email_sender()
+
+        super(Comment, self).save(*args, **kwargs)
+
+    # Will be sending the email.
+    def email_sender(self):
+        self.date_replied = timezone.now()
+        send_mail(self.subject, self.reply, EMAIL_HOST_USER, [self.email], fail_silently = False)
+
     def __str__(self):
-        return f'{self.name.title()}'
+        return self.name
 
 # To clear the potential problems with the titles that contains special characters that will throw an error
 def special_characters(title):

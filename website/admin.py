@@ -93,8 +93,8 @@ class NoticeAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    fields = ['name', 'email', 'message']
-    search_fields = ['name', 'email']
-    list_filter = ['name', 'email', 'date_commented']
-    list_display = ['name', 'email', 'message', 'date_commented']
+    fields = ['name', 'email', 'message', 'subject', 'reply', 'replied']
+    search_fields = ['name', 'email', 'replied']
+    list_filter = ['name', 'email', 'date_commented', 'replied']
+    list_display = ['name', 'email', 'date_commented', 'replied', 'date_replied']
     list_per_page = 30
