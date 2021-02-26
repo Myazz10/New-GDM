@@ -158,7 +158,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 
 # All sessions will be expired if the user closes their browser
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
