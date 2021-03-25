@@ -70,6 +70,19 @@ class TitleError(models.Model):
     url = models.URLField(null=True, blank=True)
     error_date = models.DateTimeField(default=timezone.now)
 
+    # Overriding the save method to send email
+    def save(self, *args, **kwargs):
+        # Sending a notifiction to myself automatically in the process...
+        self.email_sender()
+            
+        super(Comment, self).save(*args, **kwargs)
+
+    # Will be sending the email.
+    def email_sender(self):
+        subject = 'Get Dem Media - Title Error Needs Fixing'
+        message = f'Please to check on the following link - Name: {self.name}, URL: {self.url}... Maybe it is an urgent situation!'
+        send_mail(subject, message, EMAIL_HOST_USER, [EMAIL_HOST_USER], fail_silently = False)
+
     def __str__(self):
         return f'{self.name}'
 

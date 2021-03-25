@@ -71,7 +71,7 @@ class TitleErrorAdmin(admin.ModelAdmin):
     def show_firm_url(self, obj):
         return format_html("<a href='{url}'>{url}</a>", url=obj.url)
 
-    show_firm_url.short_description = "Firm URL"
+    show_firm_url.short_description = "Video URL"
 
 
 @admin.register(ErrorCharacter)
