@@ -137,7 +137,7 @@ def special_characters(title):
     error_characters = ErrorCharacter.objects.all()
 
     if not error_characters.exists():
-        error_characters = ['"', '.', '$', ',', '#', "'", '\\', '/']
+        error_characters = ['"', '.', '$', ',', '#', "'", '\\', '/', '|', '?', '*', '^', '%', '@']
 
         for character in title:
             if character in error_characters:
