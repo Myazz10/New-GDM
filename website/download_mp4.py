@@ -83,7 +83,6 @@ def mp4_converter(title, url):
         created = True
 
     except Exception:
-        print('flag 8')
         pass
 
     # Saving the object to the database if it was created successfully.
@@ -97,6 +96,6 @@ def mp4_converter(title, url):
         error.name = file_name
         error.url = url
         error.save()
-        print('flag 9')
+        print('flag 8')
 
     return mp4_id, special_characters_flag

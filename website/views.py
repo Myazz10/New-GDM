@@ -121,8 +121,7 @@ def home(request):
                     # Handling some sessions here -> End
 
             elif checked_radio == 'mp4':
-                video_details, mp4_id, special_characters_flag = get_mp4(
-                    search_url)
+                video_details, mp4_id, special_characters_flag = get_mp4(search_url)
 
                 if mp4_id == 'error occurred':
                     invalid_url = True
