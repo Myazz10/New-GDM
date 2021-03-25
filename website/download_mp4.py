@@ -35,7 +35,7 @@ def get_mp4(url):
 
         # Downloading the video object...
         video_obj.streams.get_highest_resolution().download()
-        mp4_id, special_characters_flag = mp4_converter(video_obj.title)
+        mp4_id, special_characters_flag = mp4_converter(video_obj.title, url)
 
     except Exception:
         video_details['invalid_url'] = 'This is not a valid YouTube url... Get a valid url please!'
@@ -48,7 +48,7 @@ def get_mp4(url):
 
 
 # This will be giving additional support to the get_mp4 method above.
-def mp4_converter(title):
+def mp4_converter(title, url):
     mp4_object = Video()
     created = False
     mp4_id = None
@@ -84,6 +84,7 @@ def mp4_converter(title):
         # Now creating an object to inform administrator what to try and fix to improve the website's functionalities.
         error = TitleError()
         error.name = file_name
+        error.url = url
         error.save()
 
     return mp4_id, special_characters_flag

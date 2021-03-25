@@ -40,7 +40,7 @@ def get_mp3(url):
 
         # Downloading the video object...
         video.streams.filter(only_audio=True).first().download()
-        mp3_id, special_characters_flag = mp3_converter(video.title)
+        mp3_id, special_characters_flag = mp3_converter(video.title, url)
 
         print('flag 11')
 
@@ -57,7 +57,7 @@ def get_mp3(url):
 
 
 # This will be giving additional support to the get_mp3 method above.
-def mp3_converter(title):
+def mp3_converter(title, url):
     mp3_object = Audio()
     created = False
     mp3_id = None
@@ -115,6 +115,7 @@ def mp3_converter(title):
         # Now creating an object to inform administrator what to try and fix to improve the website's functionalities.
         error = TitleError()
         error.name = file_name
+        error.url = url
         error.save()
         print('flag 9')
     
