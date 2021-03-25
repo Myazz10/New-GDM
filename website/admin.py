@@ -64,7 +64,7 @@ class PermitPlaylistDownloadAdmin(admin.ModelAdmin):
 
 @admin.register(TitleError)
 class TitleErrorAdmin(admin.ModelAdmin):
-    fields = ['name', 'error_date']
+    fields = ['name', 'url', 'error_date']
     list_display = ['name', 'show_firm_url', 'error_date']
 
     # Allowing the url to be clickable...
