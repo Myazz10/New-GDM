@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Audio, Video, AnimatedHeaderText, WebsiteName, AudioPlaylist, VideoPlaylist,\
     PermitPlaylistDownload, MyazzDesignzProfile, TitleError, ErrorCharacter, Notice, Comment
 
@@ -64,7 +65,13 @@ class PermitPlaylistDownloadAdmin(admin.ModelAdmin):
 @admin.register(TitleError)
 class TitleErrorAdmin(admin.ModelAdmin):
     fields = ['name', 'error_date']
-    list_display = ['name', 'error_date']
+    list_display = ['name', 'show_firm_url', 'error_date']
+
+    # Allowing the url to be clickable...
+    def show_firm_url(self, obj):
+        return format_html("<a href='{url}'>{url}</a>", url=obj.url)
+
+    show_firm_url.short_description = "Firm URL"
 
 
 @admin.register(ErrorCharacter)

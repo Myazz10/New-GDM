@@ -11,9 +11,11 @@ def get_mp4(url):
     video_details = {}
     mp4_id = None
     special_characters_flag = False
+    print('flag 1')
 
     try:
         video_obj = YouTube(url)
+        print('flag 2')
 
         length = video_obj.length
         temp_length = str(length)
@@ -32,18 +34,23 @@ def get_mp4(url):
         video_details['author'] = video_obj.author
         video_details['views'] = video_obj.views
         video_details['publish_date'] = video_obj.publish_date.date
+        print('flag 3')
 
         # Downloading the video object...
         video_obj.streams.get_highest_resolution().download()
         mp4_id, special_characters_flag = mp4_converter(video_obj.title, url)
+        print('flag 4')
 
     except Exception:
         video_details['invalid_url'] = 'This is not a valid YouTube url... Get a valid url please!'
         print(video_details['invalid_url'])
+        print('flag 10')
 
     if mp4_id is not None:
         return video_details, mp4_id, special_characters_flag
+        print('flag 11')
     else:
+        print('flag 12')
         return video_details, 'error occurred', special_characters_flag
 
 
@@ -54,6 +61,7 @@ def mp4_converter(title, url):
     mp4_id = None
     special_characters_flag = False
     file_name = title
+    print('flag 5')
 
     # Updating the title to compare it with the mp4 file that exist for it in this folder...
     title = special_characters(title)
@@ -61,10 +69,12 @@ def mp4_converter(title, url):
     mp4_file = f'{title}.mp4'
 
     try:
+        print('flag 6')
         mp4_object.mp4 = File(open(mp4_file, mode='rb'))
         mp4_object.name = file_name
         mp4_object.save()
         mp4_id = mp4_object.pk
+        print('flag 7')
 
         # Deleting the downloaded file after uploading it to cloudinary here...
         if mp4_file in os.listdir(BASE_DIR):
@@ -73,6 +83,7 @@ def mp4_converter(title, url):
         created = True
 
     except Exception:
+        print('flag 8')
         pass
 
     # Saving the object to the database if it was created successfully.
@@ -86,5 +97,6 @@ def mp4_converter(title, url):
         error.name = file_name
         error.url = url
         error.save()
+        print('flag 9')
 
     return mp4_id, special_characters_flag
