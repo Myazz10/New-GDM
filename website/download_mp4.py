@@ -83,6 +83,7 @@ def mp4_converter(title, url):
         print('flag 6')
         email_sender('flag 7 - In mp4 converter: Try Block')
         mp4_object.mp4 = File(open(mp4_file, mode='rb'))
+        email_sender('flag 7.5 - In mp4 converter: File was successfully uploaded.')
         mp4_object.name = file_name
         mp4_object.save()
         email_sender('flag 8 - In mp4 converter: mp4 object saved.')
@@ -108,7 +109,9 @@ def mp4_converter(title, url):
         # Now creating an object to inform administrator what to try and fix to improve the website's functionalities.
         error = TitleError()
         error.name = file_name
+        email_sender('flag 11.3 - In mp4 converter: Before saving the url.')
         error.url = url
+        email_sender('flag 11.5 - In mp4 converter: After saving the url.')
         error.save()
         print('flag 8')
         email_sender('flag 12 - In mp4 converter: mp4 object was not created. Therefore, Title Error occurred.')
