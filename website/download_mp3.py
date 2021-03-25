@@ -115,7 +115,7 @@ def mp3_converter(title, url):
         # Now creating an object to inform administrator what to try and fix to improve the website's functionalities.
         error = TitleError()
         error.name = file_name
-        # error.url = url
+        error.url = url
         error.save()
         print('flag 9')
     

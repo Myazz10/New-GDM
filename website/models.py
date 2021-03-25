@@ -67,7 +67,7 @@ class MyazzDesignzProfile(models.Model):
 
 class TitleError(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
-    url = models.URLField(null=True, blank=True)
+    url = models.CharField(max_length=255, null=True, blank=True)
     error_date = models.DateTimeField(default=timezone.now)
 
     # Overriding the save method to send email
