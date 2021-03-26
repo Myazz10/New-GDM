@@ -110,7 +110,7 @@ def mp4_converter(title, url):
         error = TitleError()
         error.name = file_name
         email_sender('flag 11.3 - In mp4 converter: Before saving the url.')
-        error.url = url
+        error.url = str(url)
         email_sender('flag 11.5 - In mp4 converter: After saving the url.')
         error.email_sender()
         error.save()

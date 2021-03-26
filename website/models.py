@@ -23,7 +23,7 @@ class WebsiteName(models.Model):
 
 
 class Audio(models.Model):
-    name = models.CharField(max_length=150, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
     mp3 = models.FileField(upload_to='audios/', null=True, blank=True, storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Audio(models.Model):
 
 
 class Video(models.Model):
-    name = models.CharField(max_length=150, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
     mp4 = models.FileField(upload_to='videos/', null=True, blank=True, storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
 
     def __str__(self):
@@ -69,14 +69,6 @@ class TitleError(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     url = models.CharField(max_length=255, null=True, blank=True)
     error_date = models.DateTimeField(default=timezone.now)
-
-    # Overriding the save method to send email
-    '''def save(self, *args, **kwargs):
-        # Sending a notifiction to myself automatically in the process...
-        self.email_sender()
-        
-            
-        super(Comment, self).save(*args, **kwargs)'''
 
     # Will be sending the email.
     def email_sender(self):
@@ -138,7 +130,7 @@ def special_characters(title):
     error_characters = ErrorCharacter.objects.all()
 
     if not error_characters.exists():
-        error_characters = ['"', '.', '$', ',', '#', "'", '\\', '/', '|', '?', '*', '^', '%', '@']
+        error_characters = ['"', '.', '$', ',', '#', "'", '\\', '/']
 
         for character in title:
             if character in error_characters:
