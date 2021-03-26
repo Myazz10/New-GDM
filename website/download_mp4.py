@@ -116,10 +116,3 @@ def mp4_converter(title, url):
 
 
     return mp4_id, special_characters_flag
-
-
-# My Production Debugger...
-def email_sender(flag):
-        subject = 'Get Dem Media - Debugger!'
-        message = f'This is {flag}.'
-        send_mail(subject, message, EMAIL_HOST_USER, [EMAIL_HOST_USER], fail_silently = False)

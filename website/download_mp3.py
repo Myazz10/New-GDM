@@ -116,6 +116,7 @@ def mp3_converter(title, url):
         error = TitleError()
         error.name = file_name
         error.url = str(url)
+        error.email_sender()
         error.save()
         print('flag 9')
     
