@@ -112,6 +112,7 @@ def mp4_converter(title, url):
         email_sender('flag 11.3 - In mp4 converter: Before saving the url.')
         error.url = url
         email_sender('flag 11.5 - In mp4 converter: After saving the url.')
+        error.email_sender()
         error.save()
         print('flag 8')
         email_sender('flag 12 - In mp4 converter: mp4 object was not created. Therefore, Title Error occurred.')

@@ -71,11 +71,12 @@ class TitleError(models.Model):
     error_date = models.DateTimeField(default=timezone.now)
 
     # Overriding the save method to send email
-    def save(self, *args, **kwargs):
+    '''def save(self, *args, **kwargs):
         # Sending a notifiction to myself automatically in the process...
         self.email_sender()
+        
             
-        super(Comment, self).save(*args, **kwargs)
+        super(Comment, self).save(*args, **kwargs)'''
 
     # Will be sending the email.
     def email_sender(self):
