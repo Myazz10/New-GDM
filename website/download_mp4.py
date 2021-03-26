@@ -42,7 +42,6 @@ def get_mp4(url):
         print('flag 4 - Video Downloaded...')
 
         mp4_id, special_characters_flag = mp4_converter(video_obj.title, url)
-        # print('flag 4')
 
     except Exception:
         video_details['invalid_url'] = 'This is not a valid YouTube url... Get a valid url please!'
@@ -52,7 +51,6 @@ def get_mp4(url):
     if mp4_id is not None:
         print(f'flag 14 - In mp4 converter: mp4_id is not None. Therefore special_characters_flag = {special_characters_flag}')
         return video_details, mp4_id, special_characters_flag
-        # print('flag 11')
     else:
         print('flag 15 - In mp4 converter: An error occurred...')
         return video_details, 'error occurred', special_characters_flag
@@ -67,11 +65,15 @@ def mp4_converter(title, url):
     file_name = title
     print('flag 5 - In mp4 converter')
 
+    print(f'Title Before: {title}')
+
     # Updating the title to compare it with the mp4 file that exist for it in this folder...
     title = special_characters(title)
     print('flag 6 - In mp4 converter: Searched title successfully.')
 
     mp4_file = f'{title}.mp4'
+
+    print(f'Mp4 filename: {mp4_file}')
 
     try:
         print('flag 7 - In mp4 converter: Try Block')
