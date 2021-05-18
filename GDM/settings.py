@@ -118,7 +118,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-X_FRAME_OPTIONS='SAMEORIGIN' # only if django version >= 3.0
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # only if django version >= 3.0
 
 
 # Static files (CSS, JavaScript, Images)
