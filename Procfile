@@ -1,1 +1,1 @@
-web: gunicorn GDM.wsgi:application --preload --timeout 120
+web: gunicorn GDM.wsgi:application --preload --timeout 600
