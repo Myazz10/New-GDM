@@ -121,7 +121,8 @@ def home(request):
                     # Handling some sessions here -> End
 
             elif checked_radio == 'mp4':
-                video_details, mp4_id, special_characters_flag = get_mp4(search_url)
+                video_details, mp4_id, special_characters_flag = get_mp4(
+                    search_url)
 
                 if mp4_id == 'error occurred':
                     invalid_url = True
@@ -263,14 +264,14 @@ def home(request):
             else:
                 if special_characters_flag:
                     context['special_characters_flag'] = 'This video url cannot be converted right now. Please try again ' \
-                                                        'in 24 hours. You may also try another url now.'
+                        'in 24 hours. You may also try another url now.'
                 else:
                     context['invalid_url'] = video_details['invalid_url']
 
             # Cleaning up the session database of the expired sessions.
-            #if session_is_expired:
+            # if session_is_expired:
             #    request.session.clear_expired()
-        
+
         elif submission_form == 'comment-form':
             name = request.POST.get('name')
             email = request.POST.get('email')
